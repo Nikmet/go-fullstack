@@ -1,0 +1,18 @@
+package layouts
+
+templ HeaderCSS() {
+	<style>
+        .header {
+            background: #222;
+            text-align: center;
+        }
+    </style>
+}
+
+templ Header() {
+    @HeaderCSS()
+	<div class="header">
+		@Menu()
+		{ children... }
+	</div>
+}

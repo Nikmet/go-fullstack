@@ -1,0 +1,57 @@
+package layouts
+
+import "go-fullstack/views/components"
+
+templ MenuStyle() {
+	<style>
+        .menu {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 20px 5px;
+            max-width: 1290px;
+            margin: 0 auto;
+        }
+        .menu__logo {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            color: var(--color-white);
+        }
+        .menu__logo-text {
+            font-size: 20px;
+            font-weight: 600;
+        }  
+        .menu__logo-img {
+            height: 28px;
+        }  
+        .menu__right {
+            display: flex;
+            align-items: center;    
+            gap: 20px;
+        }
+        .menu__right-link {
+            color: #fff;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all .2s;
+        }
+        .menu__right-link:hover {
+            opacity: .9;
+        }
+    </style>
+}
+
+templ Menu() {
+	@MenuStyle()
+	<div class="menu">
+		<div class="menu__logo">
+			<img src="/public/logo.svg" alt="Logo" class="menu__logo-img"/>
+			<div class="menu__logo-text">Моя работа</div>
+		</div>
+		<div class="menu__right">
+			<a href="#!" class="menu__right-link">Войти</a>
+			@components.LinkButton("/", "Зарегистрироваться")
+		</div>
+	</div>
+}

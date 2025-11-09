@@ -1,0 +1,19 @@
+package views
+
+import "go-fullstack/views/components"
+import "go-fullstack/views/layouts"
+
+templ Main() {
+	@layouts.Layout(layouts.LayoutProps{
+		Title:    "Главная страница",
+		MetaDesc: "Сайт по поиску работы мечты",
+	}) {
+		<main>
+			@layouts.Header() {
+				@components.Title("Найди работу своей мечты")
+				@components.SubTitle("Простой поиск работы")
+			}
+			Main page
+		</main>
+	}
+}
