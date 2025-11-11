@@ -2,6 +2,19 @@ package views
 
 import "go-fullstack/views/components"
 import "go-fullstack/views/layouts"
+import "go-fullstack/views/widgets"
+
+templ MainCSS() {
+	<style>
+        .main__submit-form {
+            background: rgba(48, 150, 137, .1);
+            display: flex;
+            align-items: center;
+            justify-content: center;    
+            padding: 60px 0 120px;
+        }
+    </style>
+}
 
 templ Main() {
 	@layouts.Layout(layouts.LayoutProps{
@@ -9,11 +22,14 @@ templ Main() {
 		MetaDesc: "Сайт по поиску работы мечты",
 	}) {
 		<main>
+			@MainCSS()
 			@layouts.Header() {
 				@components.Title("Найди работу своей мечты")
 				@components.SubTitle("Простой поиск работы")
 			}
-			Main page
+			<div class="main__submit-form">
+				@widgets.VacancyForm()
+			</div>
 		</main>
 	}
 }

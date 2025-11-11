@@ -1,0 +1,88 @@
+package widgets
+
+import "go-fullstack/views/components"
+
+templ VacancyFormCSS() {
+	<style>
+
+        .htmx-request .vacancy-form__loader {
+            width: 15px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            animation: l5 1s infinite linear alternate;
+        }
+        @keyframes l5 {
+            0%  {box-shadow: 20px 0 #fff, -20px 0 #ccc;background: #ccc }
+            33% {box-shadow: 20px 0 #fff, -20px 0 #ccc;background: #ccc}
+            66% {box-shadow: 20px 0 #ccc,-20px 0 #fff; background: #ccc}
+            100%{box-shadow: 20px 0 #ccc,-20px 0 #ffffff; background: #fff }
+        }
+        .vacancy-form {
+            max-width: 890px;
+            width: 100%;
+        }
+        .vacancy-form form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .vacancy-form__inpust {
+            width: 100%;   
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px 24px;
+            margin-bottom: 30px;
+        }
+        .vacancy-form__text {
+            color: var(--color-black);
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 60px;
+        }
+        .htmx-request .vacancy-form__submit {
+            display: none;
+        }
+    </style>
+}
+
+templ VacancyForm() {
+	@VacancyFormCSS()
+	<div class="vacancy-form">
+		@components.Title2("Опубликовать вакансию")
+		<p class="vacancy-form__text">Введите все необходимые данные для публикации</p>
+		<div id="vacancy-result"></div>
+		<form hx-post="/vacancy" hx-trigger="submit" hx-target="#vacancy-result" hx-swap="innerHTML swap:1s">
+			<div class="vacancy-form__inpust">
+				@components.Input(components.InputProps{
+					Name:        "role",
+					Placeholder: "Должность",
+				})
+				@components.Input(components.InputProps{
+					Name:        "company",
+					Placeholder: "Название копании",
+				})
+				@components.Input(components.InputProps{
+					Name:        "type",
+					Placeholder: "Сфера деятельности",
+				})
+				@components.Input(components.InputProps{
+					Name:        "salary",
+					Placeholder: "Заработная плата",
+				})
+				@components.Input(components.InputProps{
+					Name:        "location",
+					Placeholder: "Распаоложение",
+				})
+				@components.Input(components.InputProps{
+					Name:        "email",
+					Placeholder: "Контактный email",
+				})
+			</div>
+			@components.SubmitButton() {
+				<span class="vacancy-form__submit">Опубликовать вакансию</span>
+				<div class="vacancy-form__loader"></div>
+			}
+		</form>
+	</div>
+}

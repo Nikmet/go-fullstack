@@ -1,0 +1,19 @@
+package components
+
+templ Title2CSS() {
+	<style>
+        .title2 {
+            color: var(--color-black);
+            font-size: 50px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            margin-top: 0;
+            text-align: center;
+        }
+    </style>
+}
+
+templ Title2(title string) {
+	@Title2CSS()
+	<h1 class="title2">{ title }</h1>
+}

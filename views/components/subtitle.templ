@@ -1,10 +1,5 @@
 package components
 
-css subTitleClass() {
-	color: { "#bababa" };
-	font-size: { "18px" };
-}
-
 templ SubTitleCSS() {
 	<style>
         .subtitle {
@@ -15,5 +10,6 @@ templ SubTitleCSS() {
 }
 
 templ SubTitle(st string) {
-	<h2 class={ subTitleClass() }>{ st }</h2>
+	@SubTitleCSS()
+	<h3 class="subtitle">{ st }</h3>
 }
