@@ -1,8 +1,11 @@
 package views
 
-import "go-fullstack/views/components"
-import "go-fullstack/views/layouts"
-import "go-fullstack/views/widgets"
+import (
+	"go-fullstack/internal/vacancy"
+	"go-fullstack/views/components"
+	"go-fullstack/views/layouts"
+	"go-fullstack/views/widgets"
+)
 
 templ MainCSS() {
 	<style>
@@ -16,7 +19,7 @@ templ MainCSS() {
     </style>
 }
 
-templ Main() {
+templ Main(vacancies []vacancy.Vacancy, pagesCount, page int) {
 	@layouts.Layout(layouts.LayoutProps{
 		Title:    "Главная страница",
 		MetaDesc: "Сайт по поиску работы мечты",
@@ -27,6 +30,7 @@ templ Main() {
 				@components.Title("Найди работу своей мечты")
 				@components.SubTitle("Простой поиск работы")
 			}
+			@widgets.VacancyList(vacancies, pagesCount, page)
 			<div class="main__submit-form">
 				@widgets.VacancyForm()
 			</div>

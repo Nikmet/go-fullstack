@@ -47,14 +47,14 @@ func Layout(props LayoutProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><script src=\"https://unpkg.com/htmx.org@2.0.4\"></script><link rel=\"stylesheet\" href=\"/public/styles.css\"><meta name=\"description\" content=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><script src=\"https://unpkg.com/htmx.org@2.0.4\"></script><script src=\"https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js\" integrity=\"sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz\" crossorigin=\"anonymous\"></script><script src=\"https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.4\" integrity=\"sha384-T41oglUPvXLGBVyRdZsVRxNWnOOqCynaPubjUVjxhsjFTKrFJGEMm3/0KGmNQ+Pg\" crossorigin=\"anonymous\"></script><link rel=\"stylesheet\" href=\"/public/styles.css\"><meta name=\"description\" content=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.MetaDesc)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/layouts/layout.templ`, Line: 17, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/layouts/layout.templ`, Line: 19, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {

@@ -4,6 +4,7 @@ import (
 	"go-fullstack/config"
 	"go-fullstack/internal/home"
 	"go-fullstack/internal/vacancy"
+	"go-fullstack/pkg/database"
 	"go-fullstack/pkg/logger"
 
 	"github.com/gofiber/contrib/fiberzerolog"
@@ -14,7 +15,7 @@ import (
 func main() {
 	// Congigs
 	config.Init()
-	// dbConf := config.NewDBConfig()
+	dbConf := config.NewDBConfig()
 
 	logConf := config.NewLogConfig()
 	customLogger := logger.NewLogger(logConf)
@@ -30,9 +31,16 @@ func main() {
 	//Static
 	app.Static("/public", "./public")
 
+	// Database
+	dbPool := database.CreateDBPool(dbConf, customLogger)
+	defer dbPool.Close()
+
+	//Repos
+	vacancyRepo := vacancy.NewRepo(dbPool, customLogger)
+
 	// Handlers
-	home.NewHandler(app, customLogger)
-	vacancy.NewHanndler(app, customLogger)
+	home.NewHandler(app, customLogger, vacancyRepo)
+	vacancy.NewHanndler(app, vacancyRepo, customLogger)
 
 	app.Listen(":3000")
 }

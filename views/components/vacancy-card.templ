@@ -1,0 +1,99 @@
+package components
+
+import (
+	localtime "go-fullstack/pkg/localTime"
+	"time"
+)
+
+type VacancyCardProps struct {
+	CreatedAt   time.Time
+	Role        string
+	Location    string
+	Salary      string
+	CompanyType string
+	Company     string
+	Email       string
+}
+
+templ VacancyCardCSS() {
+	<style>
+        .vacancy-card {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding: 40px;
+            background: var(--color-white);
+            box-shadow: 0px 3px 8px 0px rgba(48, 150, 137, .08);
+            width: 100%;   
+            transition: var(--transition);
+        }
+        .vacancy-card:hover {
+            transform: scale(1.02);
+        }
+        .vacancy-card__createdat {
+            border-radius: 8px;
+            background: rgba(48, 150, 137, .1);
+            padding: 8px;
+            color: var(--color-primary);
+        }
+        .vacancy-card__title {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .vacancy-card__role {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--color-black);
+        }
+        .vacancy-card__company {
+            font-size: 16px;
+            color: var(--color-black);
+        }
+        .vacancy-card__footer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+        .vacancy-card__stats {
+            display: flex;
+            gap: 20px;
+        }
+        .vacancy-card__stat {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+    </style>
+}
+
+templ VacancyCard(props VacancyCardProps) {
+	{{ date := localtime.GetLocalTimeSinceDate(props.CreatedAt) }}
+	@VacancyCardCSS()
+	<div class="vacancy-card">
+		<div>
+			<span class="vacancy-card__createdat">{ date }</span>
+		</div>
+		<div class="vacancy-card__title">
+			<div class="vacancy-card__role">{ props.Role }</div>
+			<div class="vacancy-card__company">{ props.Company }</div>
+		</div>
+		<div class="vacancy-card__footer">
+			<div class="vacancy-card__stats">
+				<div class="vacancy-card__stat">
+					<img src="/public/icons/company-type.svg" alt="company-type"/>
+					<span>{ props.CompanyType }</span>
+				</div>
+				<div class="vacancy-card__stat">
+					<img src="/public/icons/salary.svg" alt="salary"/>
+					<span>{ props.Salary }</span>
+				</div>
+				<div class="vacancy-card__stat">
+					<img src="/public/icons/point-location.svg" alt="point-location"/>
+					<span>{ props.Location }</span>
+				</div>
+			</div>
+			@LinkButton("/", "Откликнуться")
+		</div>
+	</div>
+}

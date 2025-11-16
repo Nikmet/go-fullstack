@@ -1,0 +1,84 @@
+package widgets
+
+import (
+	"fmt"
+	"go-fullstack/internal/vacancy"
+	"go-fullstack/views/components"
+)
+
+templ VacancyListCSS() {
+	<style>
+        .vacancy-list__wrapper {
+            width: 100%;
+            max-width: 1296px;
+            margin: 0 auto;
+            padding: 60px 0;
+        }
+        .vacancy-list__wrapper p {
+            margin-bottom: 60px;
+        }
+        .vacancy-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        .vacancy-list__pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .vacancy-list__pagination a {
+            text-decoration: none;
+            font-size: 16px;
+            color: var(--color-placeholder);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+        .vacancy-list__pagination a:hover {
+            gap: 13px;
+        }
+    </style>
+}
+
+templ VacancyList(vacancies []vacancy.Vacancy, pagesCount, page int) {
+	@VacancyListCSS()
+	<div class="vacancy-list__wrapper">
+		@components.Title2("Последние вакансии", false)
+		<p>Найди подходящую вакансию за пару минут</p>
+		<div class="vacancy-list">
+			for _, vac := range vacancies {
+				@components.VacancyCard(components.VacancyCardProps{
+					CreatedAt:   vac.CreatedAt,
+					Email:       vac.Email,
+					Location:    vac.Location,
+					Salary:      vac.Salary,
+					CompanyType: vac.Type,
+					Company:     vac.Company,
+					Role:        vac.Role,
+				})
+			}
+		</div>
+		<div class="vacancy-list__pagination">
+			<div>
+				if page != 1 {
+					<a href={ templ.SafeURL(fmt.Sprintf("/?page=%d", page-1)) } class="vacancy-list__pagination-prev">
+						<span>&lt;</span>
+						<span>Предыдущие</span>
+					</a>
+				}
+			</div>
+			<div>
+				if page != pagesCount {
+					<a href={ templ.SafeURL(fmt.Sprintf("/?page=%d", page+1)) } class="vacancy-list__pagination-next">
+						<span>Следующие</span>
+						<span>&gt;</span>
+					</a>
+				}
+			</div>
+		</div>
+	</div>
+}

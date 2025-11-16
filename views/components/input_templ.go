@@ -34,7 +34,7 @@ func InputCSS() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<style>\r\n        .input {\r\n            height: 80px;\r\n            padding: 20px;\r\n            border-radius: 20px;\r\n            background: var(--color-white);      \r\n            border: none;\r\n            outline: none;  \r\n        }\r\n        .input:placeholder {\r\n            color: var(--color-placeholder);\r\n        }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<style>\r\n        .input {\r\n            height: 80px;\r\n            padding: 20px;\r\n            border-radius: 20px;\r\n            background: var(--color-white);      \r\n            border: 1px solid transparent;\r\n            outline: none;  \r\n            transition: var(--transition);\r\n        }\r\n        .input::placeholder {\r\n            color: var(--color-placeholder);\r\n            transition: var(--transition);\r\n        }\r\n        .input:focus::placeholder {\r\n             opacity: 0.3;\r\n        }\r\n        .input:focus, .input:active {\r\n            border: 1px solid var(--color-primary);\r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -74,7 +74,7 @@ func Input(props InputProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/input.templ`, Line: 26, Col: 39}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/input.templ`, Line: 34, Col: 39}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -87,7 +87,7 @@ func Input(props InputProps) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/input.templ`, Line: 26, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/input.templ`, Line: 34, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {

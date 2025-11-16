@@ -4,6 +4,7 @@ import (
 	"go-fullstack/pkg/tadapter"
 	"go-fullstack/pkg/validator"
 	"go-fullstack/views/components"
+	"net/http"
 
 	"github.com/gobuffalo/validate"
 	"github.com/gobuffalo/validate/validators"
@@ -13,16 +14,45 @@ import (
 
 type VacancyHandler struct {
 	router fiber.Router
-	cl     *zerolog.Logger
+	logger *zerolog.Logger
+	repo   *VacancyRepository
 }
 
-func NewHanndler(r fiber.Router, cl *zerolog.Logger) {
+func NewHanndler(r fiber.Router, repo *VacancyRepository, cl *zerolog.Logger) {
 	h := &VacancyHandler{
 		router: r,
-		cl:     cl,
+		logger: cl,
+		repo:   repo,
 	}
 	vacancyGruop := h.router.Group("/vacancy")
 	vacancyGruop.Post("/", h.createVacancy)
+	vacancyGruop.Get("/", h.getAll)
+}
+
+func (h *VacancyHandler) getAll(c *fiber.Ctx) error {
+	var body GetAllRequestBody
+
+	// Парсим тело запроса
+	if err := c.BodyParser(&body); err != nil {
+		h.logger.Error().Msgf("Failed to parse request body: %v", err)
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request body",
+		})
+	}
+
+	// Устанавливаем значения по умолчанию, если не переданы
+	if body.Limit <= 0 {
+		body.Limit = 10 // или другое значение по умолчанию
+	}
+	if body.Offset < 0 {
+		body.Offset = 0
+	}
+
+	vacancies, err := h.repo.GetAll(body.Limit, body.Offset)
+	if err != nil {
+		h.logger.Error().Msg(err.Error())
+	}
+	return c.JSON(vacancies)
 }
 
 func (h *VacancyHandler) createVacancy(c *fiber.Ctx) error {
@@ -42,10 +72,17 @@ func (h *VacancyHandler) createVacancy(c *fiber.Ctx) error {
 		&validators.StringIsPresent{Name: "Role", Field: form.Role, Message: "должность не задана"},
 		&validators.StringIsPresent{Name: "Salary", Field: form.Salary, Message: "зарплата не задана"},
 	)
-	h.cl.Info().Msg(form.Email)
 	if len(errors.Errors) > 0 {
 		comp := components.Notification(validator.FormatErrors(errors), components.NotificationFail)
-		return tadapter.Render(c, comp)
+		return tadapter.Render(c, comp, http.StatusBadRequest)
 	}
-	return tadapter.Render(c, components.Notification("Вакансия успешно создана!", components.NotificationSucces))
+	err := h.repo.addVacancy(form)
+
+	if err != nil {
+		h.logger.Err(err)
+		comp := components.Notification("Произзошла ошибка на сервере, попробуйте позже(", components.NotificationFail)
+		return tadapter.Render(c, comp, http.StatusBadRequest)
+	}
+
+	return tadapter.Render(c, components.Notification("Вакансия успешно создана!", components.NotificationSucces), http.StatusOK)
 }
